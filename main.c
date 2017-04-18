@@ -75,45 +75,21 @@ int main()
 
     /* Setup the camera component. */
     _check_mmal(mmal_component_create("vc.ril.camera", &cp_camera));
-    {
-        MMAL_PORT_T *control = cp_camera->control;
-
-        _check_mmal(mmal_port_enable(control, callback_control));
-    }
-    {
-        MMAL_PORT_T *output = cp_camera->output[CAMERA_PREVIEW_PORT];
-        _check_mmal(config_port(output, ENCODING_PREVIEW, WIDTH_PREVIEW, HEIGHT_PREVIEW));
-    }
-    {
-        MMAL_PORT_T *output = cp_camera->output[CAMERA_CAPTURE_PORT];
-        _check_mmal(config_port(output, ENCODING_CAPTURE, WIDTH_CAPTURE, HEIGHT_CAPTURE));
-    }
+    _check_mmal(mmal_port_enable(cp_camera->control, callback_control));
+    _check_mmal(config_port(cp_camera->output[CAMERA_PREVIEW_PORT], ENCODING_PREVIEW, WIDTH_PREVIEW, HEIGHT_PREVIEW));
+    _check_mmal(config_port(cp_camera->output[CAMERA_CAPTURE_PORT], ENCODING_CAPTURE, WIDTH_CAPTURE, HEIGHT_CAPTURE));
     _check_mmal(mmal_component_enable(cp_camera));
 
     /* Setup the render component. */
     _check_mmal(mmal_component_create("vc.ril.video_render", &cp_render));
-    {
-        MMAL_PORT_T *control = cp_render->control;
-
-        _check_mmal(mmal_port_enable(control, callback_control));
-    }
-    {
-        MMAL_PORT_T *input = cp_render->input[0];
-
-        _check_mmal(config_port(input, ENCODING_PREVIEW, WIDTH_PREVIEW, HEIGHT_PREVIEW));
-    }
+    _check_mmal(mmal_port_enable(cp_render->control, callback_control));
+    _check_mmal(config_port(cp_render->input[0], ENCODING_PREVIEW, WIDTH_PREVIEW, HEIGHT_PREVIEW));
     _check_mmal(mmal_component_enable(cp_render));
 
     /* Setup the null component. */
     _check_mmal(mmal_component_create("vc.null_sink", &cp_null));
-    {
-        MMAL_PORT_T *control = cp_null->control;
-        _check_mmal(mmal_port_enable(control, callback_control));
-    }
-    {
-        MMAL_PORT_T *input = cp_null->input[0];
-        _check_mmal(config_port(input, ENCODING_CAPTURE, WIDTH_CAPTURE, HEIGHT_CAPTURE));
-    }
+    _check_mmal(mmal_port_enable(cp_null->control, callback_control));
+    _check_mmal(config_port(cp_null->input[0], ENCODING_CAPTURE, WIDTH_CAPTURE, HEIGHT_CAPTURE));
     _check_mmal(mmal_component_enable(cp_null));
 
     /* Connect camera[PREVIEW] -- [0]render. */
