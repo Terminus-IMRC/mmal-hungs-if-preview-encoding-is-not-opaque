@@ -25,7 +25,7 @@
 #define HEIGHT_PREVIEW 768
 
 /* Formats for the capture port of camera. */
-#define ENCODING_CAPTURE MMAL_ENCODING_OPAQUE
+#define ENCODING_CAPTURE MMAL_ENCODING_I420
 #define WIDTH_CAPTURE  1024
 #define HEIGHT_CAPTURE 768
 
