@@ -30,7 +30,6 @@
 #define HEIGHT_CAPTURE 768
 
 #define CAPTURE 1
-#define ZERO_COPY 1
 
 
 #define _check_mmal(x) \
@@ -84,12 +83,10 @@ int main()
     {
         MMAL_PORT_T *output = cp_camera->output[CAMERA_PREVIEW_PORT];
         _check_mmal(config_port(output, ENCODING_PREVIEW, WIDTH_PREVIEW, HEIGHT_PREVIEW));
-        _check_mmal(mmal_port_parameter_set_boolean(output, MMAL_PARAMETER_ZERO_COPY, ZERO_COPY));
     }
     {
         MMAL_PORT_T *output = cp_camera->output[CAMERA_CAPTURE_PORT];
         _check_mmal(config_port(output, ENCODING_CAPTURE, WIDTH_CAPTURE, HEIGHT_CAPTURE));
-        _check_mmal(mmal_port_parameter_set_boolean(output, MMAL_PARAMETER_ZERO_COPY, ZERO_COPY));
     }
     _check_mmal(mmal_component_enable(cp_camera));
 
@@ -104,7 +101,6 @@ int main()
         MMAL_PORT_T *input = cp_render->input[0];
 
         _check_mmal(config_port(input, ENCODING_PREVIEW, WIDTH_PREVIEW, HEIGHT_PREVIEW));
-        _check_mmal(mmal_port_parameter_set_boolean(input, MMAL_PARAMETER_ZERO_COPY, ZERO_COPY));
     }
     _check_mmal(mmal_component_enable(cp_render));
 
@@ -117,7 +113,6 @@ int main()
     {
         MMAL_PORT_T *input = cp_null->input[0];
         _check_mmal(config_port(input, ENCODING_CAPTURE, WIDTH_CAPTURE, HEIGHT_CAPTURE));
-        _check_mmal(mmal_port_parameter_set_boolean(input, MMAL_PARAMETER_ZERO_COPY, ZERO_COPY));
     }
     _check_mmal(mmal_component_enable(cp_null));
 
